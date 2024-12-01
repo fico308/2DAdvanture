@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 253580461}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.83, y: -3.97, z: 0}
+  m_LocalPosition: {x: 6.39, y: -4.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -439,12 +439,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed1f5089bb8140b58dcad58ae5800ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  animator: {fileID: 0}
+  physicsCheck: {fileID: 0}
+  faceDir: {x: -1, y: 0}
   walkSpeed: 150
-  chaseSpeed: 0
+  chaseSpeed: 220
   currentSpeed: 0
   backForce: 3
+  waitDuration: 2
+  centerOffset: {x: 0, y: 0.8}
+  boxSize: {x: 1, y: 1}
+  detectDistance: 4
+  detectLayer:
+    serializedVersion: 2
+    m_Bits: 256
   isHurt: 0
   isDead: 0
+  isWait: 0
 --- !u!50 &253580470
 Rigidbody2D:
   serializedVersion: 4
@@ -461,7 +473,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 92c40da6799294398bbe73480ec8847f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -493,7 +505,7 @@ MonoBehaviour:
   groundRadius: 0.1
   leftRadius: 0.1
   rightRadius: 0.1
-  groundOffset: {x: 0, y: 0}
+  groundOffset: {x: -1.32, y: 0}
   leftOffset: {x: -1.09, y: 1}
   rightOffset: {x: 1.06, y: 1}
 --- !u!1 &270425545
@@ -2816,7 +2828,7 @@ Tilemap:
       - {fileID: 902486241, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -493583661, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -1448406779, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: -4, z: 0}
@@ -3113,7 +3125,7 @@ Tilemap:
       - {fileID: -662404393, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1194280857, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 832888376, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: 1, z: 0}
@@ -3157,7 +3169,7 @@ Tilemap:
       - {fileID: -662404393, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1194280857, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 832888376, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 2, z: 0}
@@ -3223,7 +3235,7 @@ Tilemap:
       - {fileID: -662404393, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1194280857, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 832888376, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: 3, z: 0}
@@ -3245,7 +3257,7 @@ Tilemap:
       - {fileID: 760436015, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1527783987, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 2121049662, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 3, y: 4, z: 0}
@@ -3267,7 +3279,7 @@ Tilemap:
       - {fileID: -662404393, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1194280857, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 832888376, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 4, z: 0}
@@ -5811,7 +5823,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 92c40da6799294398bbe73480ec8847f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6161,7 +6173,7 @@ Transform:
   m_GameObject: {fileID: 2009773830}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.36, y: -4.02, z: 0}
+  m_LocalPosition: {x: -7.34, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

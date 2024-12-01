@@ -20,14 +20,14 @@ public class PhysicsCheck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGround = Physics2D.OverlapCircle((Vector2)transform.position + groundOffset, groundRadius, layer);
+        isGround = Physics2D.OverlapCircle((Vector2)transform.position + groundOffset * transform.localScale.x, groundRadius, layer);
         isTouchLeft = Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, leftRadius, layer);
         isTouchRight = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, rightRadius, layer);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere((Vector2)transform.position + groundOffset, groundRadius);
+        Gizmos.DrawWireSphere((Vector2)transform.position + groundOffset * transform.localScale.x, groundRadius);
         Gizmos.DrawWireSphere((Vector2)transform.position + leftOffset, leftRadius);
         Gizmos.DrawWireSphere((Vector2)transform.position + rightOffset, rightRadius);
     }

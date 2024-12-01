@@ -5,10 +5,10 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    protected Rigidbody2D rb;
-    protected Animator animator;
-    protected Vector2 faceDir;
-    protected PhysicsCheck physicsCheck;
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public PhysicsCheck physicsCheck;
+    public Vector2 faceDir;
 
 
     [Header("Base Variables")]
@@ -16,51 +16,135 @@ public class Enemy : MonoBehaviour
     public float chaseSpeed;
     public float currentSpeed;
     public float backForce;
+    public float waitDuration;
+
+    [Header("Detect Player")]
+    public Vector2 centerOffset;
+    public Vector2 boxSize;
+    public float detectDistance;
+    public LayerMask detectLayer;
+    public float chaseDuration;
+    public float chaseCounter;
 
     [Header("Status")]
     public bool isHurt;
     public bool isDead;
+    public bool isWait;
 
-    // Start is called before the first frame update
-    void Awake()
+    private float waitCounter;
+
+    private BaseState currentState;
+    // 各种敌人都有patrol和chase
+    protected BaseState patrolState;
+    protected BaseState chaseState;
+
+    // 子类复写并初始化状态
+    public virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         physicsCheck = GetComponent<PhysicsCheck>();
 
         currentSpeed = walkSpeed;
+        waitCounter = waitDuration;
+    }
+
+    private void OnEnable()
+    {
+        // 开始时默认为patrol
+        currentState = patrolState;
+        currentState.OnEnter(this);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // face和scale的方向是反的
         // FIXME: maybe localScale.x > 1
         faceDir = new Vector2(-transform.localScale.x, 0);
+
+        currentState.LoginUpdate();
+        WaitCounter(); // 这里会改变faceDir, 导致LogicUpdate出问题, 所以LoginUpdate必须放在WaitCounter上面
     }
 
     private void FixedUpdate()
     {
-        if (isHurt || isDead)
+        if (!isWait && !isHurt && !isDead && physicsCheck.isGround)
         {
-            return;
+            Move();
         }
-        Move();
-        TurnBack();
+        else
+        {
+            // IDEA: Not sure is it a good idea
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+        currentState.PhysicsUpdate();
     }
 
-    protected virtual void TurnBack()
+    private void OnDisable()
     {
-        if ((physicsCheck.isTouchLeft && faceDir.x < 0) || (physicsCheck.isTouchRight && faceDir.x > 0))
+        currentState.OnExit();
+    }
+
+    private void WaitCounter()
+    {
+        if (isWait)
         {
-            transform.localScale = new Vector3(faceDir.x, transform.localScale.y, transform.localScale.z);
+            waitCounter -= Time.deltaTime;
+            if (waitCounter <= 0)
+            {
+                isWait = false;
+                waitCounter = waitDuration;
+                // 转身
+                transform.localScale = new Vector3(faceDir.x, transform.localScale.y, transform.localScale.z);
+            }
         }
     }
+
+    private void ChaseCounter()
+    {
+        if (!FoundPlayer())
+        {
+            chaseCounter -= Time.deltaTime;
+            if (chaseCounter <= 0)
+            {
+                SwitchState(NPCState.Patrol);
+            }
+        }
+    }
+
 
     protected virtual void Move()
     {
         rb.velocity = new Vector2(faceDir.x * currentSpeed * Time.deltaTime, rb.velocity.y);
     }
+
+    public bool FoundPlayer()
+    {
+        return Physics2D.BoxCast(transform.position + (Vector3)centerOffset, boxSize, 0, faceDir, detectDistance, detectLayer);
+    }
+
+    public void SwitchState(NPCState state)
+    {
+        var newState = state switch
+        {
+            NPCState.Patrol => patrolState,
+            NPCState.Chase => chaseState,
+            _ => patrolState
+        };
+        // end old
+        currentState.OnExit();
+
+        // init new
+        currentState = newState;
+        currentState.OnEnter(this);
+    }
+
+    private void OnDrawGizmosSelected() {
+         Gizmos.DrawWireCube(transform.position + (Vector3)centerOffset + transform.forward * detectDistance, boxSize);
+    }
+
+    #region Events
 
     public void TakeDamage(Transform attacker)
     {
@@ -73,11 +157,13 @@ public class Enemy : MonoBehaviour
             // if attacker on the left, v = (1, 0)
             // else v = (-1, 0)
             attacker.position.x < transform.position.x ? Math.Abs(transform.localScale.x) : -Math.Abs(transform.localScale.x), 0);
-        
+
         // p:e   faceDir = (1, 0) ->
         // e:p   faceDir = (-1, 0) <-
         rb.AddForce(faceDir * backForce, ForceMode2D.Impulse);
 
+        // 立即进入追击状态
+        SwitchState(NPCState.Chase);
         StartCoroutine(AfterHurt(faceDir));
     }
 
@@ -104,5 +190,5 @@ public class Enemy : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
-
+    # endregion
 }
