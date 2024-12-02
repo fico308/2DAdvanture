@@ -17,10 +17,13 @@ public class Character : MonoBehaviour
     // Events
     public UnityEvent<Transform> OnTakeDamage;
     public UnityEvent OnDead;
+    public UnityEvent<Character> OnCharacterChange;
 
     void Start()
     {
         currentHP = maxHP;
+        // heart changed
+        OnCharacterChange?.Invoke(this);
     }
 
     // Update is called once per frame
@@ -55,10 +58,12 @@ public class Character : MonoBehaviour
             TriggerInvulnerable();
             // invoke damage event
             OnTakeDamage?.Invoke(attacker.transform);
+            OnCharacterChange?.Invoke(this);
             return;
         }
         currentHP = 0;
         isDead = true;
         OnDead?.Invoke();
+        OnCharacterChange?.Invoke(this);
     }
 }
