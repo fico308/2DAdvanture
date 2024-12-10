@@ -17,6 +17,7 @@ public class BoarPatrolState : BaseState
             enemy.isWait = true;
             enemy.animator.SetBool("isWalk", false);
         } else {
+            enemy.isWait = false;
             enemy.animator.SetBool("isWalk", true);
         }
     }

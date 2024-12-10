@@ -9,6 +9,8 @@ public class Character : MonoBehaviour
     public int maxHP;
     public int currentHP;
     public bool isDead;
+
+    public bool dieInWater;
     [Header("Invulnerable")]
     public float invulnerableDuration;
     public float invulnerableCounter;
@@ -54,16 +56,39 @@ public class Character : MonoBehaviour
         }
         if (attacker.damage < currentHP)
         {
+            doHurt(attacker);
+            return;
+        }
+        doDie();
+    }
+
+    private void doHurt(Attack attacker)
+    {
             currentHP -= attacker.damage;
             TriggerInvulnerable();
             // invoke damage event
             OnTakeDamage?.Invoke(attacker.transform);
             OnCharacterChange?.Invoke(this);
-            return;
-        }
+    }
+
+    private void doDie()
+    {
         currentHP = 0;
         isDead = true;
         OnDead?.Invoke();
         OnCharacterChange?.Invoke(this);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!dieInWater)
+        {
+            return;
+        }
+
+        if (other.CompareTag("Water"))
+        {
+            doDie();
+        }
     }
 }
