@@ -8,7 +8,16 @@ public class AudioSender : MonoBehaviour
     public AudioEventSO audioEventSO;
     public AudioClip audioClip;
 
+    public bool playOnEnable;
+
     private void OnEnable() {
+        if (playOnEnable)
+        {
+            PlayAudioClip();
+        }
+    }
+
+    public void PlayAudioClip() {
         audioEventSO?.OnEventRaised(audioClip);
     }
 }
