@@ -95,28 +95,26 @@ public class Enemy : MonoBehaviour
             {
                 isWait = false;
                 waitCounter = waitDuration;
-                // 转身
-                transform.localScale = new Vector3(faceDir.x, transform.localScale.y, transform.localScale.z);
-            }
-        }
-    }
-
-    private void ChaseCounter()
-    {
-        if (!FoundPlayer())
-        {
-            chaseCounter -= Time.deltaTime;
-            if (chaseCounter <= 0)
-            {
-                SwitchState(NPCState.Patrol);
+                AfterWait();
             }
         }
     }
 
 
-    protected virtual void Move()
+    protected void Move()
     {
         rb.velocity = new Vector2(faceDir.x * currentSpeed * Time.deltaTime, rb.velocity.y);
+    }
+
+    public virtual void AfterWait()
+    {
+        // 转身
+        TurnAround();
+    }
+
+    public void TurnAround()
+    {
+        transform.localScale = new Vector3(faceDir.x, transform.localScale.y, transform.localScale.z);
     }
 
     public bool FoundPlayer()
@@ -140,9 +138,9 @@ public class Enemy : MonoBehaviour
         currentState.OnEnter(this);
     }
 
-    private void OnDrawGizmosSelected() {
-         Gizmos.DrawWireCube(transform.position + (Vector3)centerOffset + transform.forward * detectDistance, boxSize);
-    }
+    // private void OnDrawGizmosSelected() {
+    //      Gizmos.DrawWireCube(transform.position + (Vector3)centerOffset + transform.forward * detectDistance, boxSize);
+    // }
 
     #region Events
 

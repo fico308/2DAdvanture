@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class BoarPatrolState : BaseState
+public class SnailWalkState : BaseState
 {
 
     public override void OnEnter(Enemy enemy)
@@ -9,16 +12,12 @@ public class BoarPatrolState : BaseState
         enemy.currentSpeed = enemy.walkSpeed;
         enemy.animator.SetBool("isWalk", true);
     }
-
     public override void LoginUpdate()
     {
         if (!enemy.physicsCheck.isGround || (enemy.physicsCheck.isTouchLeft && enemy.faceDir.x < 0) || (enemy.physicsCheck.isTouchRight && enemy.faceDir.x > 0))
         {
-            enemy.isWait = true;
-            enemy.animator.SetBool("isWalk", false);
-        } else {
-            enemy.isWait = false;
-            enemy.animator.SetBool("isWalk", true);
+            // 直接转身
+            enemy.TurnAround();
         }
     }
 
@@ -30,6 +29,7 @@ public class BoarPatrolState : BaseState
             enemy.SwitchState(NPCState.Chase);
         }
     }
+
 
     public override void OnExit()
     {
