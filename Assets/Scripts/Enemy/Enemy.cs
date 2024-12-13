@@ -73,11 +73,11 @@ public class Enemy : MonoBehaviour
         {
             Move();
         }
-        else
-        {
-            // IDEA: Not sure is it a good idea
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
+        // else
+        // {
+        //     // IDEA: Not sure is it a good idea
+        //     rb.velocity = new Vector2(0, rb.velocity.y);
+        // }
         currentState.PhysicsUpdate();
     }
 
@@ -159,6 +159,7 @@ public class Enemy : MonoBehaviour
         // p:e   faceDir = (1, 0) ->
         // e:p   faceDir = (-1, 0) <-
         rb.AddForce(faceDir * backForce, ForceMode2D.Impulse);
+        Debug.Log(backForce);
 
         // 立即进入追击状态
         SwitchState(NPCState.Chase);

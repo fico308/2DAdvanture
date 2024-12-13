@@ -17,7 +17,7 @@ public class SceneLoader : MonoBehaviour
         // 由于浅拷贝的问题, 这里不能这样load
         // Addressables.LoadSceneAsync(firstScene.scene, LoadSceneMode.Additive);
         // 必须这样
-        firstScene.scene.LoadSceneAsync(LoadSceneMode.Additive);
+        // firstScene.scene.LoadSceneAsync(LoadSceneMode.Additive);
         currentScene = firstScene;
     }
 
