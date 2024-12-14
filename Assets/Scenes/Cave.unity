@@ -845,7 +845,7 @@ MonoBehaviour:
   sceneLoader: {fileID: 11400000, guid: 14e0f8fecbcb4469caf58a073c07fb3f, type: 2}
   positionToGo: {x: -6.51, y: -4.01, z: 0}
   nextScene: {fileID: 11400000, guid: dd1cc662aadd04e1d831bea123a03e20, type: 2}
-  fadeScreen: 0
+  fadeScreen: 1
 --- !u!1 &479080114
 GameObject:
   m_ObjectHideFlags: 0

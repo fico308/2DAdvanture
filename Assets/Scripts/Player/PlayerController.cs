@@ -16,6 +16,12 @@ public class PlayerController : MonoBehaviour
 
     // Internal states
     private bool isHurt;
+    private SceneType currenSceneType;
+    [Header("Event Listener")]
+    public SceneLoadEventSO newSceneLoadEvent;
+    public VoidEventSO sceneLoadedEvent;
+
+    [Header("State")]
     public bool isAttack;
 
     [Header("Base Variables")]
@@ -42,12 +48,17 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         playerInputActions.Enable();
+        newSceneLoadEvent.OnEventRaised += OnNewSceneLoad;
+        sceneLoadedEvent.OnEventRaised += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
         playerInputActions.Disable();
+        newSceneLoadEvent.OnEventRaised -= OnNewSceneLoad;
+        sceneLoadedEvent.OnEventRaised -= OnSceneLoaded;
     }
+
 
     private void Update()
     {
@@ -109,7 +120,7 @@ public class PlayerController : MonoBehaviour
         playerInputActions.GamePlay.Disable();
     }
 
-   public void AttackStart()
+    public void AttackStart()
     {
         isAttack = true;
     }
@@ -141,6 +152,26 @@ public class PlayerController : MonoBehaviour
         // attack
         AttackStart();
         animationController.PlayAttack();
+    }
+    #endregion
+
+    #region Event Listener
+    private void OnNewSceneLoad(GameSceneSO newScene, Vector3 arg1, bool arg2)
+    {
+        // 新场景开始加载
+        // 屏蔽游戏输入
+        Debug.Log("player new scene");
+        playerInputActions.GamePlay.Disable();
+        currenSceneType = newScene.type;
+
+    }
+    private void OnSceneLoaded()
+    {
+        Debug.Log("player new scene loaded");
+        if (currenSceneType == SceneType.Game)
+        {
+            playerInputActions.GamePlay.Enable();
+        }
     }
     #endregion
 }

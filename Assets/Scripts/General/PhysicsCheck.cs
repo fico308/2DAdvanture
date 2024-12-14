@@ -5,12 +5,20 @@ using UnityEngine;
 public class PhysicsCheck : MonoBehaviour
 {
 
-    public bool isGround, isTouchLeft, isTouchRight;
+    [Header("Display State")]
+    public bool isGround;
+    public bool isTouchLeft;
+    public bool isTouchRight;
     // overlaped layer
+    [Header("Base variables")]
     public LayerMask layer;
     // detect radius
-    public float groundRadius, leftRadius, rightRadius;
-    public Vector2 groundOffset, leftOffset, rightOffset;
+    public float groundRadius = 0.1f;
+    public float leftRadius = 0.1f;
+    public float rightRadius = 0.1f;
+    public Vector2 groundOffset;
+    public Vector2 leftOffset;
+    public Vector2 rightOffset;
 
     private void Start()
     {
