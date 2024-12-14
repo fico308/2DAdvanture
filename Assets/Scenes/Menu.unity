@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 309071213}
   - component: {fileID: 309071214}
+  - component: {fileID: 309071215}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -187,6 +188,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &309071215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 309071212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98fa0b5406b304c1cbcbb55b435a1040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startGameButton: {fileID: 1728833472}
 --- !u!1 &481258113
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -512,10 +526,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.8352941, g: 0.9647059, b: 0.015686275, a: 1}
-    m_PressedColor: {r: 0.95898604, g: 0.9647059, b: 0.015686259, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9647059, b: 0.015686275, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_HighlightedColor: {r: 0.015686259, g: 0.9647059, b: 0.070168346, a: 1}
+    m_PressedColor: {r: 0.9647059, g: 0.17173398, b: 0.015686259, a: 1}
+    m_SelectedColor: {r: 0.9647059, g: 0.015686259, b: 0.88652766, a: 1}
+    m_DisabledColor: {r: 0.7533375, g: 0.7582861, b: 0.9339623, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1499,7 +1513,7 @@ GameObject:
   - component: {fileID: 1402731525}
   - component: {fileID: 1402731524}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4594,7 +4608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -4624,7 +4638,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1728833474}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: f176ee964d7fd43d8809416de0b0eecf, type: 2}
+        m_TargetAssemblyTypeName: VoidEventSO, Assembly-CSharp
+        m_MethodName: RaiseEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1935818983
 GameObject:
   m_ObjectHideFlags: 0
@@ -5318,7 +5344,7 @@ Tilemap:
       - {fileID: 760436015, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1527783987, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 2121049662, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: -6, z: 0}
@@ -5329,7 +5355,7 @@ Tilemap:
       - {fileID: 902486241, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -493583661, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -1448406779, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 7, y: -6, z: 0}
@@ -5384,7 +5410,7 @@ Tilemap:
       - {fileID: -662404393, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1194280857, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 832888376, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 8, y: -5, z: 0}
@@ -5505,7 +5531,7 @@ Tilemap:
       - {fileID: 902486241, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -493583661, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -1448406779, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 7, y: -2, z: 0}
@@ -5681,7 +5707,7 @@ Tilemap:
       - {fileID: 902486241, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -493583661, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: -1448406779, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7.0000005
+      m_AnimationSpeed: 7
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 7, y: 2, z: 0}
@@ -5824,7 +5850,7 @@ Tilemap:
       - {fileID: -662404393, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1194280857, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 832888376, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 8, y: 5, z: 0}
@@ -5835,7 +5861,7 @@ Tilemap:
       - {fileID: -662404393, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1194280857, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 832888376, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 9, y: 5, z: 0}
@@ -5890,7 +5916,7 @@ Tilemap:
       - {fileID: 760436015, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 1527783987, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
       - {fileID: 2121049662, guid: cdb47572eec664c6696008ee54f38d5f, type: 3}
-      m_AnimationSpeed: 7
+      m_AnimationSpeed: 7.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   m_TileAssetArray:
@@ -6545,7 +6571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -6575,7 +6601,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2095254219}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 309071215}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

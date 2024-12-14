@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Menu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public GameObject startGameButton;
+
+    private void OnEnable() {
+        EventSystem.current.SetSelectedGameObject(startGameButton);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Update() {
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            EventSystem.current.SetSelectedGameObject(startGameButton);
+        }
     }
+
+    public void ExitGame()
+    {
+        Debug.Log("exit");
+        Application.Quit();
+    }
+
 }

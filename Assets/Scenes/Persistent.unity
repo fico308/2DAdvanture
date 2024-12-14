@@ -414,13 +414,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 2009773832}
-  playerPosition: {x: 1.5, y: -1, z: 0}
   fadeDuration: 1
-  firstScene: {fileID: 11400000, guid: e2c1998a9bcd24eebada5f7aa70c8de1, type: 2}
+  menuScene: {fileID: 11400000, guid: e2c1998a9bcd24eebada5f7aa70c8de1, type: 2}
+  menuPlayerPosition: {x: 1.5, y: -1, z: 0}
+  gameScene: {fileID: 11400000, guid: dd1cc662aadd04e1d831bea123a03e20, type: 2}
+  gamePlayerPosition: {x: 0, y: 0, z: 0}
   sceneLoader: {fileID: 11400000, guid: 14e0f8fecbcb4469caf58a073c07fb3f, type: 2}
+  newGameEvent: {fileID: 11400000, guid: f176ee964d7fd43d8809416de0b0eecf, type: 2}
   afterSceneLoadedEvent: {fileID: 11400000, guid: 44c893ce8b6e04c1e80bb5b29aba52b7, type: 2}
   fadeImageEvent: {fileID: 11400000, guid: 970342ca974594de8932a32a9912a7dd, type: 2}
-  newSceneLoadEvent: {fileID: 0}
+  scendUnloadedEvent: {fileID: 11400000, guid: 9886dfc3bda45475db7d24d638d84c80, type: 2}
 --- !u!4 &421567281
 Transform:
   m_ObjectHideFlags: 0
@@ -749,7 +752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterEvent: {fileID: 11400000, guid: 5e28a874dabcc4314bf253e521d81179, type: 2}
   playerStatsBar: {fileID: 1513998594}
-  newSceneLoadEvent: {fileID: 11400000, guid: 14e0f8fecbcb4469caf58a073c07fb3f, type: 2}
+  newSceneLoadEvent: {fileID: 11400000, guid: 9886dfc3bda45475db7d24d638d84c80, type: 2}
 --- !u!4 &575637516
 Transform:
   m_ObjectHideFlags: 0
@@ -1617,7 +1620,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1143973234
 RectTransform:
@@ -1955,7 +1958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1513998593
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2890,6 +2893,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  newGameEvent: {fileID: 11400000, guid: f176ee964d7fd43d8809416de0b0eecf, type: 2}
 --- !u!1 &2017675282
 GameObject:
   m_ObjectHideFlags: 0

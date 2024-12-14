@@ -9,23 +9,28 @@ public class Character : MonoBehaviour
     public int maxHP;
     public int currentHP;
     public bool isDead;
-
     public bool dieInWater;
+
+
     [Header("Invulnerable")]
     public float invulnerableDuration;
     public float invulnerableCounter;
     public bool isInvulnerable;
 
     // Events
+    [Header("Event broadcaster")]
     public UnityEvent<Transform> OnTakeDamage;
     public UnityEvent OnDead;
     public UnityEvent<Character> OnCharacterChange;
+    [Header("Event listener")]
+    public VoidEventSO newGameEvent;
 
-    void Start()
-    {
-        currentHP = maxHP;
-        // heart changed
-        OnCharacterChange?.Invoke(this);
+    private void OnEnable() {
+        newGameEvent.OnEventRaised += NewGame;
+    }
+
+    private void OnDisable() {
+        newGameEvent.OnEventRaised -= NewGame;
     }
 
     // Update is called once per frame
@@ -40,6 +45,13 @@ public class Character : MonoBehaviour
         {
             isInvulnerable = false;
         }
+    }
+
+    private void NewGame()
+    {
+        currentHP = maxHP;
+        // heart changed
+        OnCharacterChange?.Invoke(this);
     }
 
     private void TriggerInvulnerable()
@@ -64,11 +76,11 @@ public class Character : MonoBehaviour
 
     private void doHurt(Attack attacker)
     {
-            currentHP -= attacker.damage;
-            TriggerInvulnerable();
-            // invoke damage event
-            OnTakeDamage?.Invoke(attacker.transform);
-            OnCharacterChange?.Invoke(this);
+        currentHP -= attacker.damage;
+        TriggerInvulnerable();
+        // invoke damage event
+        OnTakeDamage?.Invoke(attacker.transform);
+        OnCharacterChange?.Invoke(this);
     }
 
     private void doDie()

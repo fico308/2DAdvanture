@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     private void NewSceneLoad(GameSceneSO newScene, Vector3 pos, bool faedIn)
     {
-        playerStatsBar.gameObject.SetActive(newScene.type != SceneType.Menu);
+        playerStatsBar.gameObject.SetActive(newScene.type == SceneType.Menu);
     }
 
     public void CharacterChanged(Character character)

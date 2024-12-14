@@ -9,19 +9,25 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    [Header("Base Variables")]
     public Transform playerTransform;
-    public Vector3 playerPosition;
     public float fadeDuration;
-    public GameSceneSO firstScene;
+
+    [Header("Menu")]
+    public GameSceneSO menuScene;
+    public Vector3 menuPlayerPosition;
+    [Header("Game")]
+    public GameSceneSO gameScene;
+    public Vector3 gamePlayerPosition;
 
     [Header("Event Listener")]
     public SceneLoadEventSO sceneLoader;
+    public VoidEventSO newGameEvent;
 
     [Header("Event Broadcaster")]
     public VoidEventSO afterSceneLoadedEvent;
     public FadeImageEventSO fadeImageEvent;
-    public SceneLoadEventSO newSceneLoadEvent;
-
+    public SceneLoadEventSO scendUnloadedEvent;
 
     private GameSceneSO sceneToGo;
     private Vector3 posToGo;
@@ -34,26 +40,31 @@ public class SceneLoader : MonoBehaviour
         // 加载scene
         // 由于浅拷贝的问题, 这里不能这样load
         // Addressables.LoadSceneAsync(firstScene.scene, LoadSceneMode.Additive);
-        // 必须这样
 
-        NewGame();
+
+        // 游戏开始, 加载menu场景
+        sceneLoader.RaiseEvent(menuScene, menuPlayerPosition, true);
     }
 
-    private void NewGame()
-    {
-        // FIX: fade必须为true否则黑屏
-        sceneLoader.RaiseEvent(firstScene, playerPosition, true);
-        // OnLoadSceneRequestEvent(firstScene, playerPosition, true);
-    }
+
 
     private void OnEnable()
     {
         sceneLoader.OnEventRaised += OnLoadSceneRequestEvent;
+        newGameEvent.OnEventRaised += NewGame;
     }
 
     private void OnDisable()
     {
+        newGameEvent.OnEventRaised -= NewGame;
         sceneLoader.OnEventRaised -= OnLoadSceneRequestEvent;
+    }
+
+
+    private void NewGame()
+    {
+        // 加载游戏场景
+        sceneLoader.RaiseEvent(gameScene, gamePlayerPosition, true);
     }
 
 
@@ -68,7 +79,7 @@ public class SceneLoader : MonoBehaviour
         fadeScene = fadeScreen;
         sceneToGo = newScene;
         this.posToGo = posToGo;
-        Debug.Log("load new " + newScene.scene + "-"+posToGo.x + "-"+posToGo.y);
+        Debug.Log("load new " + newScene.scene + "-" + posToGo.x + "-" + posToGo.y);
         if (currentScene != null)
         {
             StartCoroutine(UnLoadOldAndLoadNew());
@@ -92,6 +103,7 @@ public class SceneLoader : MonoBehaviour
         if (currentScene != null)
         {
             Debug.Log("unload2 " + currentScene.scene);
+            scendUnloadedEvent.RaiseEvent(currentScene, posToGo, false);
             yield return currentScene.scene.UnLoadScene();
         }
 

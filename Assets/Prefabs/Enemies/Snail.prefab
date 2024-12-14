@@ -272,6 +272,7 @@ MonoBehaviour:
   OnCharacterChange:
     m_PersistentCalls:
       m_Calls: []
+  newGameEvent: {fileID: 11400000, guid: f176ee964d7fd43d8809416de0b0eecf, type: 2}
 --- !u!114 &3278343480703070133
 MonoBehaviour:
   m_ObjectHideFlags: 0
