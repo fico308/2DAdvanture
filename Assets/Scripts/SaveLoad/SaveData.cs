@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
@@ -10,6 +11,7 @@ using YamlDotNet.Serialization;
 public class SaveData
 {
     public Dictionary<string, CharacterData> characters = new Dictionary<string, CharacterData>();
+    public string currentScene;
 
     [Serializable]
     public struct CharacterData
@@ -21,28 +23,16 @@ public class SaveData
         public float positionZ;
     }
 
-    // public static string ToYaml(SaveData saveData)
-    // {
-    //     var serializer = new SerializerBuilder().Build();
-    //     return serializer.Serialize(saveData);
-    // }
+    public void SaveScene(GameSceneSO gameScene)
+    {
+        currentScene = JsonUtility.ToJson(gameScene);
+    }
 
-    // public static SaveData LoadFromYaml(string yaml)
-    // {
-    //     var deserializer = new DeserializerBuilder().Build();
-    //     return deserializer.Deserialize<SaveData>(yaml);
-    // }
-
-    // [Obsolete("Use ToYaml instead")]
-    // public string ToJson()
-    // {
-    //     return JsonUtility.ToJson(this);
-    // }
-
-    // [Obsolete("Use LoadFromYaml instaed")]
-    // public void LoadFromJson(string json)
-    // {
-    //     JsonUtility.FromJsonOverwrite(json, this);
-    // }
+    public GameSceneSO LoadScene()
+    {
+        GameSceneSO gameScene = new GameSceneSO();
+        JsonUtility.FromJsonOverwrite(currentScene, gameScene);
+        return gameScene;
+    }
 
 }

@@ -21,7 +21,7 @@ public class SceneLoader : MonoBehaviour
     public Vector3 gamePlayerPosition;
 
     [Header("Event Listener")]
-    public SceneLoadEventSO sceneLoader;
+    public SceneLoadEventSO sceneLoaderEvent;
     public VoidEventSO newGameEvent;
 
     [Header("Event Broadcaster")]
@@ -43,26 +43,26 @@ public class SceneLoader : MonoBehaviour
 
 
         // 游戏开始, 加载menu场景
-        sceneLoader.RaiseEvent(menuScene, menuPlayerPosition, true);
+        sceneLoaderEvent.RaiseEvent(menuScene, menuPlayerPosition, true);
     }
 
     private void OnEnable()
     {
-        sceneLoader.OnEventRaised += OnLoadSceneRequestEvent;
+        sceneLoaderEvent.OnEventRaised += OnLoadSceneRequestEvent;
         newGameEvent.OnEventRaised += NewGame;
     }
 
     private void OnDisable()
     {
         newGameEvent.OnEventRaised -= NewGame;
-        sceneLoader.OnEventRaised -= OnLoadSceneRequestEvent;
+        sceneLoaderEvent.OnEventRaised -= OnLoadSceneRequestEvent;
     }
 
 
     private void NewGame()
     {
         // 加载游戏场景
-        sceneLoader.RaiseEvent(gameScene, gamePlayerPosition, true);
+        sceneLoaderEvent.RaiseEvent(gameScene, gamePlayerPosition, true);
     }
 
 
@@ -73,6 +73,8 @@ public class SceneLoader : MonoBehaviour
             return;
         }
         isLoading = true;
+
+        Debug.Log($"Load new scene {newScene}");
 
         fadeScene = fadeScreen;
         sceneToGo = newScene;
@@ -126,5 +128,19 @@ public class SceneLoader : MonoBehaviour
         afterSceneLoadedEvent?.RaiseEvent();
         // 通知场景加载成功
         isLoading = false;
+    }
+
+    public void SaveScene(SaveData saveData)
+    {
+        saveData.SaveScene(currentScene);
+    }
+
+    public void LoadScene(SaveData saveData)
+    {
+        var playerId = playerTransform.GetComponent<DataDefination>()?.ID;
+        if (saveData.characters.TryGetValue(playerId, out var cd))
+        {
+            sceneLoaderEvent.RaiseEvent(saveData.LoadScene(), new Vector3(cd.positionX, cd.positionY, cd.positionZ), fadeScene);
+        }
     }
 }

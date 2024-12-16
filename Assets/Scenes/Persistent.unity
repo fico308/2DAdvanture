@@ -419,7 +419,7 @@ MonoBehaviour:
   menuPlayerPosition: {x: 1.5, y: -1, z: 0}
   gameScene: {fileID: 11400000, guid: dd1cc662aadd04e1d831bea123a03e20, type: 2}
   gamePlayerPosition: {x: 0, y: 0, z: 0}
-  sceneLoader: {fileID: 11400000, guid: 14e0f8fecbcb4469caf58a073c07fb3f, type: 2}
+  sceneLoaderEvent: {fileID: 11400000, guid: 14e0f8fecbcb4469caf58a073c07fb3f, type: 2}
   newGameEvent: {fileID: 11400000, guid: f176ee964d7fd43d8809416de0b0eecf, type: 2}
   afterSceneLoadedEvent: {fileID: 11400000, guid: 44c893ce8b6e04c1e80bb5b29aba52b7, type: 2}
   fadeImageEvent: {fileID: 11400000, guid: 970342ca974594de8932a32a9912a7dd, type: 2}
@@ -578,9 +578,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8289cdbc524c4c4495fb9797e06b23f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneLoader: {fileID: 421567280}
   saveDataEvent: {fileID: 11400000, guid: 074614e249faa4ea49d8c2b2a4b74f40, type: 2}
   loadDataEvent: {fileID: 11400000, guid: b785a78de92324e9a82d445247a56b71, type: 2}
-  newGameEvent: {fileID: 11400000, guid: f176ee964d7fd43d8809416de0b0eecf, type: 2}
 --- !u!4 &499848391
 Transform:
   m_ObjectHideFlags: 0
@@ -2872,7 +2872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20db551433cde40fcafe5f6ed3f00982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 
+  ID: b4c7666c-9071-47e4-ace3-75a357f30b05
 --- !u!1 &2017675282
 GameObject:
   m_ObjectHideFlags: 0

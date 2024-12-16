@@ -6,16 +6,17 @@ using UnityEngine;
 // TODO: https://github.com/UnityTechnologies/UniteNow20-Persistent-Data/blob/main/SaveDataManager.cs
 public class DataManager : MonoBehaviour
 {
-    const string DataFileLocation = "data.dat";
+    // TODO: support multi save files
+    private const string DataFileLocation = "data.dat";
+
+    [Header("Variables")]
+    public SceneLoader sceneLoader;
 
     [Header("Event listener")]
     public VoidEventSO saveDataEvent;
     public VoidEventSO loadDataEvent;
 
     public static DataManager instance;
-
-    // TODO: test only
-    public VoidEventSO newGameEvent;
 
     private List<ISaveable> saveables = new List<ISaveable>();
 
@@ -31,20 +32,14 @@ public class DataManager : MonoBehaviour
     {
         saveDataEvent.OnEventRaised += Save;
         loadDataEvent.OnEventRaised += Load;
-        newGameEvent.OnEventRaised += NewGame;
     }
 
     private void OnDisable()
     {
         saveDataEvent.OnEventRaised -= Save;
         loadDataEvent.OnEventRaised -= Load;
-        newGameEvent.OnEventRaised -= NewGame;
     }
 
-    private void NewGame()
-    {
-        Debug.Log("DataManager NewGame");
-    }
 
     public void RegisterSaveData(ISaveable saveable)
     {
@@ -75,6 +70,9 @@ public class DataManager : MonoBehaviour
         {
             Debug.Log($"Save\t{item.Key}\t{item.Value.hp}\t{item.Value.positionX}\t{item.Value.positionY}\t{item.Value.positionZ}");
         }
+        // Save scene
+        sceneLoader.SaveScene(saveData);
+
         // Save to file
         if (!FileManager.WriteToFile(DataFileLocation, SerializeUtil.ToYaml(saveData)))
         {
@@ -86,8 +84,11 @@ public class DataManager : MonoBehaviour
     {
         if (FileManager.LoadFromFile(DataFileLocation, out var json))
         {
-            Debug.Log($"Read JSON: {json}");
+            Debug.Log($"Read YAML: {json}");
             SaveData saveData = SerializeUtil.LoadFromYaml<SaveData>(json);
+            // load scene first
+            // FIXME: 场景加载使用event, 会有延时, 因此player会漂浮在空中一段时间
+            sceneLoader.LoadScene(saveData);
 
             foreach (var saveable in saveables)
             {

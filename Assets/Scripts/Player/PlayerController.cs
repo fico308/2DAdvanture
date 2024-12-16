@@ -160,16 +160,21 @@ public class PlayerController : MonoBehaviour
     {
         // 新场景开始加载
         // 屏蔽游戏输入
+        Debug.Log($"Player new scene load {newScene}");
+        rb.constraints = RigidbodyConstraints2D.FreezeAll; // 禁止移动
         playerInputActions.GamePlay.Disable();
         currenSceneType = newScene.type;
 
     }
     private void OnSceneLoaded()
     {
+        Debug.Log("Player new scene loaded");
         if (currenSceneType == SceneType.Game)
         {
             playerInputActions.GamePlay.Enable();
         }
+        // gameObject.SetActive(true);
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
     #endregion
 }

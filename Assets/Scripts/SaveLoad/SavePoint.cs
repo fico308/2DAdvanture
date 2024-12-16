@@ -23,6 +23,7 @@ public class SavePoint : MonoBehaviour, IInterctable
     }
 
     private void Update() {
+        // TODO: delete
         if (Keyboard.current.lKey.wasPressedThisFrame)
         {
             loadDataEvent.RaiseEvent();
