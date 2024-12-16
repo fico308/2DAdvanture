@@ -160,14 +160,12 @@ public class PlayerController : MonoBehaviour
     {
         // 新场景开始加载
         // 屏蔽游戏输入
-        Debug.Log("player new scene");
         playerInputActions.GamePlay.Disable();
         currenSceneType = newScene.type;
 
     }
     private void OnSceneLoaded()
     {
-        Debug.Log("player new scene loaded");
         if (currenSceneType == SceneType.Game)
         {
             playerInputActions.GamePlay.Enable();

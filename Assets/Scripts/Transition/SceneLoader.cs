@@ -46,8 +46,6 @@ public class SceneLoader : MonoBehaviour
         sceneLoader.RaiseEvent(menuScene, menuPlayerPosition, true);
     }
 
-
-
     private void OnEnable()
     {
         sceneLoader.OnEventRaised += OnLoadSceneRequestEvent;
@@ -79,7 +77,6 @@ public class SceneLoader : MonoBehaviour
         fadeScene = fadeScreen;
         sceneToGo = newScene;
         this.posToGo = posToGo;
-        Debug.Log("load new " + newScene.scene + "-" + posToGo.x + "-" + posToGo.y);
         if (currentScene != null)
         {
             StartCoroutine(UnLoadOldAndLoadNew());
@@ -99,10 +96,8 @@ public class SceneLoader : MonoBehaviour
         }
 
         yield return new WaitForSeconds(fadeDuration);
-        Debug.Log("unload1 " + currentScene);
         if (currentScene != null)
         {
-            Debug.Log("unload2 " + currentScene.scene);
             scendUnloadedEvent.RaiseEvent(currentScene, posToGo, false);
             yield return currentScene.scene.UnLoadScene();
         }
@@ -129,7 +124,6 @@ public class SceneLoader : MonoBehaviour
             fadeImageEvent.FaedOut(fadeDuration);
         }
         afterSceneLoadedEvent?.RaiseEvent();
-        Debug.Log("scene loaded");
         // 通知场景加载成功
         isLoading = false;
     }

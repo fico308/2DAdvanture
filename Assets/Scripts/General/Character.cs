@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, ISaveable
 {
     [Header("Base Variables")]
     public int maxHP;
@@ -23,14 +23,27 @@ public class Character : MonoBehaviour
     public UnityEvent OnDead;
     public UnityEvent<Character> OnCharacterChange;
     [Header("Event listener")]
-    public VoidEventSO newGameEvent;
+    public VoidEventSO newGameEvent; // 不能用newGame来初始化ememy血量, 因为这个敌人可能不在第一个场景
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
+        Debug.Log($"Enable {GetID().ID}");
         newGameEvent.OnEventRaised += NewGame;
+        if (!gameObject.CompareTag("Player"))
+        {
+            // 非player直接满血
+            currentHP = maxHP;
+        }
+        // 放在这里时因为只有当前场景加载出来之后其中的对象才需要注册 
+        ISaveable saveable = this;
+        saveable.RegisterSaveData();
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         newGameEvent.OnEventRaised -= NewGame;
+        ISaveable saveable = this;
+        saveable.UnregisterSaveData();
     }
 
     // Update is called once per frame
@@ -49,6 +62,7 @@ public class Character : MonoBehaviour
 
     private void NewGame()
     {
+        Debug.Log($"New Game {GetID().ID}");
         currentHP = maxHP;
         // heart changed
         OnCharacterChange?.Invoke(this);
@@ -101,6 +115,51 @@ public class Character : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             doDie();
+        }
+    }
+
+    public DataDefination GetID()
+    {
+        return GetComponent<DataDefination>();
+    }
+
+    public void Save(SaveData storage)
+    {
+        var id = GetID().ID;
+        // if (id == string.Empty)
+        // {
+        //     // 不需要保存?
+        //     return;
+        // }
+        var cd = new SaveData.CharacterData();
+        cd.ID = id;
+        cd.hp = currentHP;
+        cd.positionX = transform.position.x;
+        cd.positionY = transform.position.y;
+        cd.positionZ = transform.position.z;
+
+        storage.characters[id] = cd;
+
+        // if (storage.characters.ContainsKey(id))
+        // {
+        //     storage.characters[id] = ;
+        // }
+        // else
+        // {
+        //     storage.characters.Add(id, transform.position);
+        // }
+
+    }
+
+    public void Load(SaveData storage)
+    {
+        var id = GetID().ID;
+        if (storage.characters.TryGetValue(id, out var data))
+        {
+            Debug.Log($"load {id} data: {data}");
+            currentHP = data.hp;
+            transform.position = new Vector3(data.positionX, data.positionY, data.positionZ);
+            OnCharacterChange?.Invoke(this);
         }
     }
 }

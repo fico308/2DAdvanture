@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8138984678934611823}
   - component: {fileID: 5921526004029659506}
   - component: {fileID: 373481272433128712}
+  - component: {fileID: -6997984191779786577}
   m_Layer: 9
   m_Name: Boar
   m_TagString: Untagged
@@ -342,3 +343,16 @@ MonoBehaviour:
   groundOffset: {x: -1.36, y: 0}
   leftOffset: {x: -1.09, y: 1}
   rightOffset: {x: 1.06, y: 1}
+--- !u!114 &-6997984191779786577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4190246814514333712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20db551433cde40fcafe5f6ed3f00982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 
