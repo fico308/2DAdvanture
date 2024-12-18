@@ -7,6 +7,8 @@ public class Character : MonoBehaviour, ISaveable
 {
     [Header("Base Variables")]
     public int maxHP;
+
+    [Header("Status")]
     public int currentHP;
     public bool isDead;
     public bool dieInWater;
@@ -22,6 +24,7 @@ public class Character : MonoBehaviour, ISaveable
     public UnityEvent<Transform> OnTakeDamage;
     public UnityEvent OnDead;
     public UnityEvent<Character> OnCharacterChange;
+
     [Header("Event listener")]
     public VoidEventSO newGameEvent; // 不能用newGame来初始化ememy血量, 因为这个敌人可能不在第一个场景
 
@@ -99,10 +102,15 @@ public class Character : MonoBehaviour, ISaveable
 
     private void doDie()
     {
+        if (isDead)
+        {
+            return;
+        }
         currentHP = 0;
         isDead = true;
         OnDead?.Invoke();
         OnCharacterChange?.Invoke(this);
+        Debug.Log("Dead");
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -158,6 +166,8 @@ public class Character : MonoBehaviour, ISaveable
         {
             Debug.Log($"load {id} data: {data}");
             currentHP = data.hp;
+            isDead = currentHP <= 0;
+
             transform.position = new Vector3(data.positionX, data.positionY, data.positionZ);
             OnCharacterChange?.Invoke(this);
         }

@@ -43,7 +43,7 @@ public class SceneLoader : MonoBehaviour
 
 
         // 游戏开始, 加载menu场景
-        sceneLoaderEvent.RaiseEvent(menuScene, menuPlayerPosition, true);
+        LoadMenu();
     }
 
     private void OnEnable()
@@ -58,6 +58,10 @@ public class SceneLoader : MonoBehaviour
         sceneLoaderEvent.OnEventRaised -= OnLoadSceneRequestEvent;
     }
 
+    public void LoadMenu()
+    {
+        sceneLoaderEvent.RaiseEvent(menuScene, menuPlayerPosition, true);
+    }
 
     private void NewGame()
     {
